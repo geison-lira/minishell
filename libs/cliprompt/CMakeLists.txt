@@ -1,6 +1,6 @@
-add_library(cliutil prompt.c)
+add_library(cliprompt prompt.c)
 
-target_include_directories(cliutil
+target_include_directories(cliprompt
     PUBLIC 
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     PRIVATE
