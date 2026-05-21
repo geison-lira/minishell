@@ -1,4 +1,4 @@
-#include <cliutil/prompt.h>
+#include <cliprompt/prompt.h>
 #include <cliparser/parser.h>
 
 int main(){
