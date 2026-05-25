@@ -1,3 +1,3 @@
 add_executable(minishell main.c)
 
-target_link_libraries(minishell PRIVATE cliprompt cliparser)
+target_link_libraries(minishell PRIVATE cliprompt cliparser cliexecutor)

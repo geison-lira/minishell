@@ -7,4 +7,5 @@ set(CMAKE_C_STANDARD_REQUIRED ON)
 
 add_subdirectory(libs/cliprompt)
 add_subdirectory(libs/cliparser)
+add_subdirectory(libs/cliexecutor)
 add_subdirectory(app/shell)
