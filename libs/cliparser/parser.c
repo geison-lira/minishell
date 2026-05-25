@@ -2,7 +2,7 @@
 
 void shell_parser(){
     char usr_input[MAX_INPUT_LENGTH];
-    char* usr_argv[MAX_INPUT_ARGS];
+    char* usr_argv[MAX_ARGS_COUNT];
     int usr_argc;
     if(fgets(usr_input, sizeof(usr_input), stdin) != NULL){
         if(strchr(usr_input, '\n') == NULL){
@@ -11,13 +11,16 @@ void shell_parser(){
         }
         else{
             char* arg = strtok(usr_input, " ");
-            for(usr_argc = 0; arg != NULL && usr_argc < MAX_INPUT_ARGS; usr_argc++){
+            for(usr_argc = 0; arg != NULL && usr_argc < MAX_ARGS_COUNT; usr_argc++){
                 usr_argv[usr_argc] = arg;
                 arg = strtok(NULL, " ");
             }
             if(arg != NULL){
-                printf("error: Input exceeds maximum supported number of %d arguments\n", MAX_INPUT_ARGS);
+                printf("error: Input exceeds maximum supported number of %d arguments\n", MAX_ARGS_COUNT);
             }
         }
+    }
+    else{
+        printf("error: An unexpected error ocurred while reading user input");
     }
 }
