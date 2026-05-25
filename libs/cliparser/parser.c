@@ -13,11 +13,13 @@ void shell_parser(){
         for(int input_flush = '\0'; input_flush != '\n' && input_flush != EOF; input_flush = getchar()){}
         return;
     }
+    usr_input[strcspn(usr_input, "\n")] = '\0';
     char* arg = strtok(usr_input, " ");
-    for(usr_argc = 0; arg != NULL && usr_argc < MAX_ARGS_COUNT; usr_argc++){
+    for(usr_argc = 0; arg != NULL && usr_argc < MAX_ARGS_COUNT - 1; usr_argc++){
         usr_argv[usr_argc] = arg;
         arg = strtok(NULL, " ");
     }
+    usr_argv[usr_argc] = arg;
     if(arg != NULL){
         fprintf(stderr, "error: Input exceeds maximum supported number of %d arguments\n", MAX_ARGS_COUNT - 1);
         return;
