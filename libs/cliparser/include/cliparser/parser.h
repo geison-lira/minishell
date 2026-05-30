@@ -7,11 +7,11 @@
 #define MAX_ARGS_COUNT 64
 
 typedef struct{
-    int argc;
     char* argv[MAX_ARGS_COUNT+1];
-    int success;
     char* input_file;
     char* output_file;
+    int argc;
+    int success;
 }ParserState;
 
 ParserState shell_parser();
