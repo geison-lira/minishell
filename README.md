@@ -41,11 +41,15 @@ The minishell accepts 256 character long commands with up to 64 arguments.
 ```
 git clone https://github.com/geison-lira/minishell.git
 ```
-2. Compile the code with CMake:
+2. Setup the build folder
+```
+cmake -B build -G Ninja
+```
+3. Compile the code with CMake:
 ```
 cmake --build build
 ```
-3. Run the executable (the code below is executed from the root):
+4. Run the executable (the code below is executed from the root):
 ```
 ./build/app/shell/minishell
 ```
