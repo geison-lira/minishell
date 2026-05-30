@@ -9,7 +9,7 @@ int main(){
         shell_prompt();
         state = shell_parser();
         if(state.success){
-            shell_executor(state.argv);
+            shell_executor(state.argv, state.input_file, state.output_file);
         }
     }
 }

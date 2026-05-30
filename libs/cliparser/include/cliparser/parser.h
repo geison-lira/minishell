@@ -10,6 +10,8 @@ typedef struct{
     int argc;
     char* argv[MAX_ARGS_COUNT+1];
     int success;
+    char* input_file;
+    char* output_file;
 }ParserState;
 
 ParserState shell_parser();

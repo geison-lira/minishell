@@ -23,6 +23,36 @@ ParserState shell_parser(){
         fprintf(stderr, "parser error: Input exceeds maximum supported number of %d arguments\n", MAX_ARGS_COUNT);
         return state;
     }
+    for(int i = 0; i < state.argc; i++){
+        if(strcmp(state.argv[i], ">") == 0){
+            if(state.argc > i+1){
+                state.output_file = state.argv[i+1];
+                for(int j = i; j < state.argc - 1; j++){
+                    state.argv[j] = state.argv[j+2];
+                }
+                state.argc -= 2;
+                i--;
+            }
+            else{
+                 fprintf(stderr, "parser error: no output file informed\n");
+                 return state;
+            }
+        }
+        if(strcmp(state.argv[i], "<") == 0){
+            if(state.argc > i+1){
+                state.input_file = state.argv[i+1];
+                for(int j = i; j < state.argc - 1; j++){
+                    state.argv[j] = state.argv[j+2];
+                }
+                state.argc -=2;
+                i--;
+            }
+            else{
+                fprintf(stderr, "parser error: no input file informed\n");
+                return state;
+            }
+        }
+    }
     state.success = 1;
     return state;
 }
