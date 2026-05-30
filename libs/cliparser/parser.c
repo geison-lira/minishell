@@ -4,7 +4,7 @@ ParserState shell_parser(){
     char usr_input[MAX_INPUT_LENGTH+2];
     ParserState state = {0};
     if(fgets(usr_input, sizeof(usr_input), stdin) == NULL){
-        fprintf(stderr, "parser error: An unexpected error ocurred while reading user input");
+        fprintf(stderr, "parser error: An unexpected error ocurred while reading user input\n");
         return state;
     }
     if(strchr(usr_input, '\n') == NULL){
