@@ -15,7 +15,7 @@ void shell_executor(char* argv[]){
         int status;
         pid_t terminated_pid = wait(&status);
         if ((WIFEXITED(status) && WEXITSTATUS(status) != 0) || WIFSIGNALED(status)) {
-            fprintf(stderr, "executor error: Child process failed to execute successfully\n");
+            fprintf(stderr, "executor error: Child process failed to execute\n");
         }
     }
 }
