@@ -1,72 +1,147 @@
 # Minishell
 
-## CLI to Emulate a Linux Shell
+[![Release](https://img.shields.io/github/v/release/geison-lira/minishell)](https://github.com/geison-lira/minishell/releases)
 
-### The Project
+A lightweight Command Line Interface (CLI) built in C that emulates core Linux shell functionalities, including process creation and I/O redirection.
 
-This project implements what I call a "Miniature Shell", a very simplified version of the Linux Shell. It can run programs by creating processes and redirect their input and output. To run a program you must specify it's full path.
+## Latest Release
 
-Some examples of code that the minishell correctly interprets:
-* Execute the Linux `ls` command.
-```
+**v1.0.0** – Initial Release.
+
+* [Release Notes](https://github.com/geison-lira/minishell/releases/tag/v1.0.0)
+
+## Features & Examples
+
+The Minishell accepts commands up to 256 characters long with up to 64 arguments. It supports absolute and relative executable paths, along with flexible I/O redirection placement.
+
+### Standard Command Execution
+
+```bash
 cmd> /bin/ls
+cmd> ./prog arg1 arg2
 ```
----
-* Assuming that the Minishell executable is in the same directory as the program `prog`, it can run the executable as follows.
-```
-cmd> ./prog
-```
----
-* The Minishell can read the arguments passed to the program and execute it with them.
-```
-cmd> ./prog arg1 arg2 arg3
-```
----
-* The Minishell can redirect a program I/O using `<` and `>` operators respectively, it assumes that the argument right after the operators is the file that will receive or pass the arguments.
-```
+
+### I/O Redirection
+
+The `<` and `>` operators redirect standard input and output. Input and output files can be placed anywhere in the command, provided they immediately follow the corresponding operator.
+
+```bash
 cmd> ./prog < in.txt > out.txt
+cmd> ./dir/prog arg1 < in.txt arg2 > out.txt
 ```
----
-* You can combine commands to build more complex ones.
-```
-cmd> ./dir/prog arg1 arg2 < in.txt > out.txt
-```
----
-The I/O operations can be written in any order, in the beggining or in the end of the command, there can be arguments in between them, the only restriction is to provide the file name right after the operators.
 
-The minishell accepts 256 character long commands with up to 64 arguments.
+## Getting Started
 
-### Use the minishell
-1. Clone the repository:
-```
+### Prerequisites
+
+* Linux environment
+* CMake
+* Ninja build system
+* GCC or Clang compiler
+
+### Build and Run
+
+#### 1. Clone the repository
+
+```bash
 git clone https://github.com/geison-lira/minishell.git
+cd minishell
 ```
-2. Setup the build folder
-```
+
+#### 2. Generate the build configuration
+
+```bash
 cmake -B build -G Ninja
 ```
-3. Compile the code with CMake:
-```
+
+#### 3. Compile the project
+
+```bash
 cmake --build build
 ```
-4. Run the executable (the code below is executed from the root):
-```
+
+#### 4. Run Minishell
+
+```bash
 ./build/app/shell/minishell
 ```
 
-### Solution
-The Minishell has 3 main modules, a prompt, a parser and an executor.
+> **Note:** To exit the shell, press `CTRL+C`.
 
-* Prompt
+## Architecture & Implementation
 
-This is the module responsible to show the `cmd> ` in every new interaction the user starts, it's really just a printf.
+The architecture follows a three-stage pipeline that reads, parses, and executes user commands:
 
-* Parser
+```text
+[ User Input ]
+       │
+       ▼
+   ( Prompt )
+       │
+       ▼
+   ( Parser )
+       │
+       ▼
+ [ Shell State ]
+       │
+       ▼
+  ( Executor )
+       │
+       ▼
+[ Linux Process ]
+```
 
-This module is responsible to get and interpret the user's command, it tokenizes the continuous command into the arguments, it checks the length and argument count of the command as well as handling the I/O redirection operators and flushing the input buffers. It generates a variable that represents the state of the shell, it encodes whether the command was syntatically correct, the I/O files and the arguments.
+### 1. Prompt
 
-* Executor
+A simple interface loop that manages the terminal session lifecycle, displays the `cmd>` prompt, and waits for user input.
 
-This module takes the state variable produced by the parser and runs the program based on it. It uses the `unistd.h` library to access Linux system calls like the `fork()`, `execv()` and `dup2()`. The executor transforms the program binary into a Linux process, correctly passes the arguments and defines the I/O directions.
+### 2. Parser
 
-The Minishell runs in an infinite loop until the user hits `CTRL+C` to stop the process.
+Responsible for lexical analysis and semantic validation of raw user input.
+
+* Tokenizes continuous input into an argument array.
+* Removes shell control symbols from executable arguments.
+* Enforces shell constraints such as maximum command length and argument count.
+* Extracts input and output redirection targets.
+* Produces a structured shell state consumed by the executor.
+
+### 3. Executor
+
+Translates the parser state into native Linux processes using POSIX system calls from `<unistd.h>`.
+
+* **fork()** — Creates a child process for command execution.
+* **dup2()** — Redirects standard input and output file descriptors.
+* **execv()** — Replaces the child process image with the target executable.
+
+## Project Structure
+
+```text
+minishell/
+├── .vscode/
+├── app/
+│   └── shell/
+│       ├── CMakeLists.txt
+│       └── main.c
+├── libs/
+│   ├── cliexecutor/
+│   │   ├── include/
+│   │   │    └── cliexecutor/
+│   │   │        └── executor.h
+│   │   ├── CMakeLists.txt
+│   │   └── executor.c
+│   ├── cliparser/
+│   │   ├── include/
+│   │   │    └── cliparser/
+│   │   │        └── parser.h
+│   │   ├── CMakeLists.txt
+│   │   └── parser.c
+│   └── cliprompt/
+│       ├── include/
+│       │    └── cliprompt/
+│       │        └── prompt.h
+│       ├── CMakeLists.txt
+│       └── prompt.c
+├── .gitignore
+├── CMakeLists.txt
+└── README.md
+```
