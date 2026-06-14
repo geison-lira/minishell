@@ -7,6 +7,6 @@
 #include <types/command.h>
 
 Command shell_parser();
-void shell_cleaner();
+void shell_cleaner(Command);
 
 #endif

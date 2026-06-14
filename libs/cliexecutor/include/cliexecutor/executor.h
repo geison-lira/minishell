@@ -8,6 +8,6 @@
 #include <fcntl.h>
 #include <types/command.h>
 
-void shell_executor();
+void shell_executor(Command);
 
 #endif
