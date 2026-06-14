@@ -6,3 +6,5 @@ target_include_directories(cliprompt
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}
 )
+
+target_link_libraries(cliprompt PRIVATE types)
