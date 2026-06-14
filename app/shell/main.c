@@ -12,5 +12,6 @@ int main(){
         if(state.success){
             shell_executor(state);
         }
+        shell_cleaner(state);
     }
 }

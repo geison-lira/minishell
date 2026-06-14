@@ -56,3 +56,18 @@ Command shell_parser(){
     state.success = 1;
     return state;
 }
+
+void shell_cleaner(Command state){
+    for(int i = 0; i < state.argc; i++){
+        if(state.argv[i] != NULL){
+            free(state.argv[i]);
+            state.argv[i] = NULL;
+        }
+    }
+    state.argc = 0;
+    state.success = 0;
+    free(state.input_file);
+    state.input_file = NULL;
+    free(state.output_file);
+    state.output_file = NULL;
+}
