@@ -1,6 +1,6 @@
 #include <cliexecutor/executor.h>
 
-void shell_executor(char* argv[], char* input_file, char* output_file){
+void shell_executor(Command state){
     pid_t pid = fork();
     int fd_input;
     int fd_output;
@@ -9,8 +9,8 @@ void shell_executor(char* argv[], char* input_file, char* output_file){
         exit(1);
     }
     else if(pid == 0){
-        if(input_file != NULL){
-            fd_input = open(input_file, O_RDONLY);
+        if(state.input_file != NULL){
+            fd_input = open(state.input_file, O_RDONLY);
             if(fd_input >= 0){
                 dup2(fd_input, STDIN_FILENO);
                 close(fd_input);
@@ -19,8 +19,8 @@ void shell_executor(char* argv[], char* input_file, char* output_file){
                 perror("dup2 error");
             }
         }
-        if(output_file != NULL){
-            fd_output = open(output_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+        if(state.output_file != NULL){
+            fd_output = open(state.output_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
             if(fd_output >= 0){
                 dup2(fd_output, STDOUT_FILENO);
                 close(fd_output);
@@ -29,7 +29,7 @@ void shell_executor(char* argv[], char* input_file, char* output_file){
                 perror("dup2 error");
             }
         }
-        execv(argv[0], argv);
+        execv(state.argv[0], state.argv);
         perror("execv error");
         exit(1);
     }

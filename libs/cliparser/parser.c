@@ -1,8 +1,8 @@
 #include <cliparser/parser.h>
 
-ParserState shell_parser(){
+Command shell_parser(){
     char usr_input[MAX_INPUT_LENGTH+2];
-    ParserState state = {0};
+    Command state = {0};
     if(fgets(usr_input, sizeof(usr_input), stdin) == NULL){
         fprintf(stderr, "parser error: An unexpected error ocurred while reading user input\n");
         return state;
@@ -15,7 +15,7 @@ ParserState shell_parser(){
     usr_input[strcspn(usr_input, "\n")] = '\0';
     char* arg = strtok(usr_input, " ");
     for(state.argc = 0; arg != NULL && state.argc < MAX_ARGS_COUNT; state.argc++){
-        state.argv[state.argc] = arg;
+        state.argv[state.argc] = strdup(arg);
         arg = strtok(NULL, " ");
     }
     state.argv[state.argc] = arg;
