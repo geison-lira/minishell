@@ -25,44 +25,36 @@ Command shell_parser(){
     }
     for(int i = 0; i < state.argc; i++){
         if(strcmp(state.argv[i], ">") == 0){
-            if(state.output_file[0] == NULL){
-                if(state.argc > i+1){
-                    state.output_file[0] = state.argv[i+1];
-                    for(int j = i; j < state.argc - 1; j++){
-                        state.argv[j] = state.argv[j+2];
-                    }
-                    state.argc -= 2;
-                    i--;
-                }
-                else{
-                    fprintf(stderr, "parser error: No output file informed\n");
-                    return state;
-                }
-            }
-            else{
+            if(state.output_file[0] != NULL){
                 fprintf(stderr, "parser error: More than one output file informed\n");
                 return state;
             }
+            if(state.argc <= i+1){
+                fprintf(stderr, "parser error: No output file informed\n");
+                return state;
+            }
+            state.output_file[0] = state.argv[i+1];
+            for(int j = i; j < state.argc - 1; j++){
+                state.argv[j] = state.argv[j+2];
+            }
+            state.argc -= 2;
+            i--;
         }
         if(strcmp(state.argv[i], "<") == 0){
-            if(state.input_file[0] == NULL){
-                if(state.argc > i+1){
-                    state.input_file[0] = state.argv[i+1];
-                    for(int j = i; j < state.argc - 1; j++){
-                        state.argv[j] = state.argv[j+2];
-                    }
-                    state.argc -=2;
-                    i--;
-                }
-                else{
-                    fprintf(stderr, "parser error: No input file informed\n");
-                    return state;
-                }
-            }
-            else{
+            if(state.input_file[0] != NULL){
                 fprintf(stderr, "parser error: More than one input file informed\n");
                 return state;
             }
+            if(state.argc <= i+1){
+                fprintf(stderr, "parser error: No input file informed\n");
+                return state;
+            }
+            state.input_file[0] = state.argv[i+1];
+            for(int j = i; j < state.argc - 1; j++){
+                state.argv[j] = state.argv[j+2];
+            }
+            state.argc -=2;
+            i--;
         }
     }
     state.success = 1;
