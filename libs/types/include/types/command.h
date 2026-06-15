@@ -12,4 +12,4 @@ typedef struct{
     int success;
 }Command;
 
-#endif
+#endif //COMMAND_H

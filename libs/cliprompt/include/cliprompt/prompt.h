@@ -5,4 +5,4 @@
 
 void shell_prompt();
 
-#endif
+#endif //PROMPT_H
