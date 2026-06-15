@@ -35,7 +35,7 @@ Command shell_parser(){
                     i--;
                 }
                 else{
-                    fprintf(stderr, "parser error: no output file informed\n");
+                    fprintf(stderr, "parser error: No output file informed\n");
                     return state;
                 }
             }
@@ -55,7 +55,7 @@ Command shell_parser(){
                     i--;
                 }
                 else{
-                    fprintf(stderr, "parser error: no input file informed\n");
+                    fprintf(stderr, "parser error: No input file informed\n");
                     return state;
                 }
             }
