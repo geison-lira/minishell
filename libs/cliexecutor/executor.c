@@ -9,8 +9,8 @@ void shell_executor(Command state){
         exit(1);
     }
     else if(pid == 0){
-        if(state.input_file != NULL){
-            fd_input = open(state.input_file, O_RDONLY);
+        if(state.input_file[0] != NULL){
+            fd_input = open(state.input_file[0], O_RDONLY);
             if(fd_input >= 0){
                 dup2(fd_input, STDIN_FILENO);
                 close(fd_input);
@@ -19,8 +19,8 @@ void shell_executor(Command state){
                 perror("dup2 error");
             }
         }
-        if(state.output_file != NULL){
-            fd_output = open(state.output_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+        if(state.output_file[0] != NULL){
+            fd_output = open(state.output_file[0], O_WRONLY | O_CREAT | O_TRUNC, 0644);
             if(fd_output >= 0){
                 dup2(fd_output, STDOUT_FILENO);
                 close(fd_output);

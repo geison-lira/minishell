@@ -26,7 +26,7 @@ Command shell_parser(){
     for(int i = 0; i < state.argc; i++){
         if(strcmp(state.argv[i], ">") == 0){
             if(state.argc > i+1){
-                state.output_file = state.argv[i+1];
+                state.output_file[0] = state.argv[i+1];
                 for(int j = i; j < state.argc - 1; j++){
                     state.argv[j] = state.argv[j+2];
                 }
@@ -40,7 +40,7 @@ Command shell_parser(){
         }
         if(strcmp(state.argv[i], "<") == 0){
             if(state.argc > i+1){
-                state.input_file = state.argv[i+1];
+                state.input_file[0] = state.argv[i+1];
                 for(int j = i; j < state.argc - 1; j++){
                     state.argv[j] = state.argv[j+2];
                 }
@@ -63,11 +63,15 @@ void shell_cleaner(Command state){
             free(state.argv[i]);
             state.argv[i] = NULL;
         }
+        if(state.input_file[i] != NULL){
+            free(state.input_file[i]);
+            state.input_file[i] = NULL;
+        }
+        if(state.output_file[i] != NULL){
+            free(state.output_file[i]);
+            state.output_file[i] = NULL;
+        }
     }
     state.argc = 0;
     state.success = 0;
-    free(state.input_file);
-    state.input_file = NULL;
-    free(state.output_file);
-    state.output_file = NULL;
 }
