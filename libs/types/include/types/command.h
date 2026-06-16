@@ -8,6 +8,8 @@ typedef struct{
     char* argv[MAX_ARGS_COUNT+1];
     char* input_file[MAX_ARGS_COUNT/2-1];
     char* output_file[MAX_ARGS_COUNT/2-1];
+    int input_flag;
+    int output_flag;
     int argc;
     int success;
 }Command;

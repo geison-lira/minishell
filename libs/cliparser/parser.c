@@ -29,7 +29,7 @@ Command shell_parser(){
                 fprintf(stderr, "parser error: No program binary informed\n");
                 return state;
             }
-            if(state.output_file[0] != NULL){
+            if(state.output_flag){
                 fprintf(stderr, "parser error: More than one output file informed\n");
                 return state;
             }
@@ -41,6 +41,7 @@ Command shell_parser(){
             for(int j = i; j < state.argc - 1; j++){
                 state.argv[j] = state.argv[j+2];
             }
+            state.output_flag = 1;
             state.argc -= 2;
             i--;
         }
@@ -49,7 +50,7 @@ Command shell_parser(){
                 fprintf(stderr, "parser error: No program binary informed\n");
                 return state;
             }
-            if(state.input_file[0] != NULL){
+            if(state.input_flag){
                 fprintf(stderr, "parser error: More than one input file informed\n");
                 return state;
             }
@@ -61,6 +62,7 @@ Command shell_parser(){
             for(int j = i; j < state.argc - 1; j++){
                 state.argv[j] = state.argv[j+2];
             }
+            state.input_flag = 1;
             state.argc -=2;
             i--;
         }
