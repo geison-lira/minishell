@@ -29,7 +29,7 @@ Command shell_parser(){
                 fprintf(stderr, "parser error: No program binary informed\n");
                 return state;
             }
-            if(state.output_flag){
+            if(state.output_file){
                 fprintf(stderr, "parser error: More than one output file informed\n");
                 return state;
             }
@@ -37,16 +37,10 @@ Command shell_parser(){
                 fprintf(stderr, "parser error: No output file informed\n");
                 return state;
             }
-            for(int j = 0; j < MAX_IOARGS_COUNT; j++){
-                if(state.output_file[j] == NULL){
-                    state.output_file[j] = state.argv[i+1];
-                    break;
-                }
-            }
+            state.output_file = state.argv[i+1];
             for(int j = i; j < state.argc - 1; j++){
                 state.argv[j] = state.argv[j+2];
             }
-            state.output_flag = 1;
             state.argc -= 2;
             i--;
         }
@@ -55,7 +49,7 @@ Command shell_parser(){
                 fprintf(stderr, "parser error: No program binary informed\n");
                 return state;
             }
-            if(state.input_flag){
+            if(state.input_file){
                 fprintf(stderr, "parser error: More than one input file informed\n");
                 return state;
             }
@@ -63,16 +57,10 @@ Command shell_parser(){
                 fprintf(stderr, "parser error: No input file informed\n");
                 return state;
             }
-            for(int j = 0; j < MAX_IOARGS_COUNT; j++){
-                if(state.input_file[j] == NULL){
-                    state.input_file[j] = state.argv[i+1];
-                    break;
-                }
-            }
+            state.input_file = state.argv[i+1];
             for(int j = i; j < state.argc - 1; j++){
                 state.argv[j] = state.argv[j+2];
             }
-            state.input_flag = 1;
             state.argc -=2;
             i--;
         }
@@ -87,6 +75,7 @@ void shell_cleaner(Command state){
             free(state.argv[i]);
             state.argv[i] = NULL;
         }
+        /*
         if(state.input_file[i] != NULL){
             free(state.input_file[i]);
             state.input_file[i] = NULL;
@@ -95,9 +84,12 @@ void shell_cleaner(Command state){
             free(state.output_file[i]);
             state.output_file[i] = NULL;
         }
+        */
     }
-    state.input_flag = 0;
-    state.output_flag = 0;
+    free(state.input_file);
+    state.input_file = NULL;
+    free(state.output_file);
+    state.output_file = NULL;
     state.argc = 0;
     state.success = 0;
 }

@@ -7,10 +7,10 @@
 
 typedef struct{
     char* argv[MAX_ARGS_COUNT+1];
-    char* input_file[MAX_IOARGS_COUNT];
-    char* output_file[MAX_IOARGS_COUNT];
-    int input_flag;
-    int output_flag;
+    //char* input_file[MAX_IOARGS_COUNT];
+    //char* output_file[MAX_IOARGS_COUNT];
+    char* input_file;
+    char* output_file;
     int argc;
     int success;
 }Command;
