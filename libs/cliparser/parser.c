@@ -75,16 +75,14 @@ void shell_cleaner(Command state){
             free(state.argv[i]);
             state.argv[i] = NULL;
         }
-        /*
-        if(state.input_file[i] != NULL){
-            free(state.input_file[i]);
-            state.input_file[i] = NULL;
+        if(state.input_pipe[i] != NULL){
+            free(state.input_pipe[i]);
+            state.input_pipe[i] = NULL;
         }
-        if(state.output_file[i] != NULL){
-            free(state.output_file[i]);
-            state.output_file[i] = NULL;
+        if(state.output_pipe[i] != NULL){
+            free(state.output_pipe[i]);
+            state.output_pipe[i] = NULL;
         }
-        */
     }
     free(state.input_file);
     state.input_file = NULL;
