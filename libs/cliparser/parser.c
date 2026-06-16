@@ -37,7 +37,12 @@ Command shell_parser(){
                 fprintf(stderr, "parser error: No output file informed\n");
                 return state;
             }
-            state.output_file[0] = state.argv[i+1];
+            for(int j = 0; j < MAX_IOARGS_COUNT; j++){
+                if(state.output_file[j] == NULL){
+                    state.output_file[j] = state.argv[i+1];
+                    break;
+                }
+            }
             for(int j = i; j < state.argc - 1; j++){
                 state.argv[j] = state.argv[j+2];
             }
@@ -58,7 +63,12 @@ Command shell_parser(){
                 fprintf(stderr, "parser error: No input file informed\n");
                 return state;
             }
-            state.input_file[0] = state.argv[i+1];
+            for(int j = 0; j < MAX_IOARGS_COUNT; j++){
+                if(state.input_file[j] == NULL){
+                    state.input_file[j] = state.argv[i+1];
+                    break;
+                }
+            }
             for(int j = i; j < state.argc - 1; j++){
                 state.argv[j] = state.argv[j+2];
             }
