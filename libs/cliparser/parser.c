@@ -25,6 +25,10 @@ Command shell_parser(){
     }
     for(int i = 0; i < state.argc; i++){
         if(strcmp(state.argv[i], ">") == 0){
+            if(i == 0){
+                fprintf(stderr, "parser error: No program binary informed\n");
+                return state;
+            }
             if(state.output_file[0] != NULL){
                 fprintf(stderr, "parser error: More than one output file informed\n");
                 return state;
@@ -41,6 +45,10 @@ Command shell_parser(){
             i--;
         }
         if(strcmp(state.argv[i], "<") == 0){
+            if(i == 0){
+                fprintf(stderr, "parser error: No program binary informed\n");
+                return state;
+            }
             if(state.input_file[0] != NULL){
                 fprintf(stderr, "parser error: More than one input file informed\n");
                 return state;
