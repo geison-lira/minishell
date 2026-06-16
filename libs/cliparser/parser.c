@@ -86,6 +86,8 @@ void shell_cleaner(Command state){
             state.output_file[i] = NULL;
         }
     }
+    state.input_flag = 0;
+    state.output_flag = 0;
     state.argc = 0;
     state.success = 0;
 }
